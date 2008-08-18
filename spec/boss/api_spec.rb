@@ -7,7 +7,6 @@ describe Boss::Api do
     mock('http_response', :body => 'pretend:"json"', :code => "200")
   end
 
-  # B9Cg793V34FFKKppOZtmpUFtJ3v6futuAi5jTDHF2lrERIwhJmBoh2cEtiGrp87vdAky
   before(:each) do
     @api = Boss::Api.new( appid = 'test' )
   end
