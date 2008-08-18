@@ -26,7 +26,7 @@ h2. INSTALL:
 
 <pre><code>
   gem sources --add http://gems.github.com/ 
-  gem install eshopworks-rboss-gem
+  gem install eshopworks-rboss
 </code></pre>
 
 h2. USAGE:
