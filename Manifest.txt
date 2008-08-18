@@ -22,7 +22,7 @@ lib/boss/result/spell.rb
 lib/boss/result/web.rb
 lib/boss/result_factory.rb
 lib/boss/version.rb
-rboss-gem.gemspec
+rboss.gemspec
 spec/boss/api_spec.rb
 spec/boss/config_spec.rb
 spec/boss/result_factory_spec.rb
