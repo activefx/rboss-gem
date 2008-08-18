@@ -1,0 +1,83 @@
+h1. RBoss-gem Yahoo Boss Search
+
+http://developer.yahoo.com/search/boss/
+http://developer.yahoo.com/search/boss/boss_guide/ - API
+
+h2.  DESCRIPTION:
+
+A handy gem to make using the Yahoo Boss API nice and easy in ruby.
+
+h2.  FEATURES:
+
+Search
+ * images
+ * news
+ * web
+
+Also spelling suggestions
+
+Return results as 
+ * JSON
+ * XML
+ * Plain old ruby objects (PORDO)
+
+Tagging
+ PORDO's make use of the http://tagthe.net/ service to automatically generate tags for results.
+
+
+h2. INSTALL:
+
+<code>
+  gem sources --add http://gems.github.com/ 
+  gem install eshopworks-rboss-gem
+</code>
+
+h2. USAGE:
+
+<code>
+  api = Boss::Api.new('api-key-got-from-yahoo')
+  api.search('monkeys')
+  
+  #Search images, spelling, news and web
+  api.search_images('monkeys')
+  api.search_spelling('monkeys')
+  api.search_news('monkeys')
+  api.search_web('monkeys')
+
+  #By default returns ruby object results
+  results = api.search_web('monkeys')
+  results.each { |web| puts web.title }
+
+  #Configure search with hash
+  api.search_spelling('monkeys', :format => 'xml')
+
+  #Configure search with block
+  api.search_spelling('monkeys') do |config|
+    config.format = 'xml'
+  end
+</code>
+  
+Check http://developer.yahoo.com/search/boss/boss_guide/ for the different values accessible for news/images/web/spell ruby object results
+
+h2.  LICENSE:
+
+Copyright (c) 2008 eShopworks
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

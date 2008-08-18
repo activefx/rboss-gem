@@ -1,0 +1,136 @@
+require File.dirname(__FILE__) + '/../spec_helper'
+# require File.dirname(__FILE__) + '/../../boss/api.rb'
+
+describe Boss::Api do
+
+  def mock_http_response
+    mock('http_response', :body => 'pretend:"json"', :code => "200")
+  end
+
+  # B9Cg793V34FFKKppOZtmpUFtJ3v6futuAi5jTDHF2lrERIwhJmBoh2cEtiGrp87vdAky
+  before(:each) do
+    @api = Boss::Api.new( appid = 'test' )
+  end
+
+  describe "responding to spelling search" do
+
+    it "should make a spelling request to yahoo service" do
+      Net::HTTP.should_receive(:get_response).and_return{ mock_http_response }
+      Boss::ResultFactory.stub!(:build)
+
+      @api.search_spelling "girafes"
+    end
+
+    it "should build the spelling objects" do
+      Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
+      Boss::ResultFactory.should_receive(:build).with(Boss::SearchService::SPELL, 'pretend:"json"')
+
+      @api.search_spelling "girafes"
+    end
+
+  end
+
+  describe "responding to news search" do
+    it "should make a news request to yahoo service" do
+      Net::HTTP.should_receive(:get_response).and_return{ mock_http_response }
+      Boss::ResultFactory.stub!(:build)
+
+      @api.search_news "monkey"
+    end
+
+    it "should build the news objects" do
+      Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
+      Boss::ResultFactory.should_receive(:build).with(Boss::SearchType::NEWS, 'pretend:"json"')
+
+      @api.search_news "monkey"
+    end
+  end
+
+  describe "responding to image search" do
+    it "should make a image request to yahoo service" do
+      Net::HTTP.should_receive(:get_response).and_return{ mock_http_response }
+      Boss::ResultFactory.stub!(:build)
+      
+      @api.search_images "hippo"
+    end
+
+    it "should build the image objects" do
+      Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
+      Boss::ResultFactory.should_receive(:build).with(Boss::SearchType::IMAGES, 'pretend:"json"')
+
+      @api.search_images "hippo"
+    end
+  end
+
+  describe "responding to web search" do
+
+    it "should make a web request to yahoo service" do
+      Net::HTTP.should_receive(:get_response).and_return{ mock_http_response }
+      Boss::ResultFactory.stub!(:build)
+      @api.search_web "monkey"
+    end
+
+    it "should build the web objects" do
+      Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
+      Boss::ResultFactory.should_receive(:build).with(Boss::SearchType::WEB, 'pretend:"json"')
+
+      @api.search_web "monkey"
+    end
+
+  end
+
+  describe "configuring search" do
+    describe "configuring search" do
+
+      before(:each) do
+        Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
+        Boss::ResultFactory.stub!(:build)
+        
+        @config = Boss::Config.new
+      end
+
+      it "should allow configuring through block" do
+        @config.should_receive(:count=).with(1)
+        Boss::Config.should_receive(:new).and_return(@config)
+        
+        result = @api.search_web "monkeys" do |setup|
+          setup.count = 1
+        end
+      end
+
+      it "should allow configuring through hash" do
+        Boss::Config.should_receive(:new).with({:count => 1}).and_return(@config)
+
+        @api.search_web "monkeys", :count => 1
+      end
+
+    end
+  end
+
+  describe "formats" do
+
+    before(:each) do
+      Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
+    end
+
+    it "should not return any objects when format is 'xml'" do
+      Boss::ResultFactory.should_receive(:build).never
+      @api.search_web "monkeys", :format => 'xml', :count => 1
+    end
+
+    it "should not return any objects when format is 'json'" do
+      Boss::ResultFactory.should_receive(:build).never
+      @api.search_web "monkeys", :format => 'json', :count => 1
+    end
+
+    it "should raise an error invalid format" do
+      lambda { @api.search_web "monkeys", :format => 'grilled_cheese', :count => 1 }.should raise_error(Boss::InvalidFormat)
+    end
+    
+    it "should raise an error on invalid count" do
+      lambda { @api.search_web "monkeys", :count => 0 }.should raise_error(Boss::InvalidConfig)
+    end
+
+  end
+
+end

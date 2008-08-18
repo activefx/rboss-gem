@@ -1,0 +1,1 @@
+%w{base web image news spell}.each{|f| require "boss/result/#{f}"}
