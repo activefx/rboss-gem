@@ -1,7 +1,7 @@
 h1. RBoss-gem Yahoo Boss Search
 
-http://developer.yahoo.com/search/boss/
-http://developer.yahoo.com/search/boss/boss_guide/ - API
+"Yahoo boss search":http://developer.yahoo.com/search/boss/
+"Yahoo boss API":http://developer.yahoo.com/search/boss/boss_guide/
 
 h2.  DESCRIPTION:
 
@@ -19,22 +19,18 @@ Also spelling suggestions
 Return results as 
  * JSON
  * XML
- * Plain old ruby objects (PORDO)
-
-Tagging
- PORDO's make use of the http://tagthe.net/ service to automatically generate tags for results.
-
+ * Plain old ruby objects (POROs)
 
 h2. INSTALL:
 
-<code>
+<pre><code>
   gem sources --add http://gems.github.com/ 
   gem install eshopworks-rboss-gem
-</code>
+</code></pre>
 
 h2. USAGE:
 
-<code>
+<pre><code>
   api = Boss::Api.new('api-key-got-from-yahoo')
   api.search('monkeys')
   
@@ -55,7 +51,7 @@ h2. USAGE:
   api.search_spelling('monkeys') do |config|
     config.format = 'xml'
   end
-</code>
+</code></pre>
   
 Check http://developer.yahoo.com/search/boss/boss_guide/ for the different values accessible for news/images/web/spell ruby object results
 
