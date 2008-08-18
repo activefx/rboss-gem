@@ -3,8 +3,8 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Boss::Api do
 
-  def mock_http_response
-    mock('http_response', :body => 'pretend:"json"', :code => "200")
+  def mock_http_response(stubs={})
+    mock('http_response', {:body => 'pretend:"json"', :code => "200"}.merge(stubs))
   end
 
   before(:each) do
@@ -49,7 +49,7 @@ describe Boss::Api do
     it "should make a image request to yahoo service" do
       Net::HTTP.should_receive(:get_response).and_return{ mock_http_response }
       Boss::ResultFactory.stub!(:build)
-      
+
       @api.search_images "hippo"
     end
 
@@ -78,32 +78,40 @@ describe Boss::Api do
 
   end
 
-  describe "configuring search" do
-    describe "configuring search" do
+  describe "failed search" do
 
-      before(:each) do
-        Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-        Boss::ResultFactory.stub!(:build)
-        
-        @config = Boss::Config.new
-      end
+    it "should raise error on failed search" do
+      Net::HTTP.stub!(:get_response).and_return{ mock_http_response :code => "404" }
 
-      it "should allow configuring through block" do
-        @config.should_receive(:count=).with(1)
-        Boss::Config.should_receive(:new).and_return(@config)
-        
-        result = @api.search_web "monkeys" do |setup|
-          setup.count = 1
-        end
-      end
-
-      it "should allow configuring through hash" do
-        Boss::Config.should_receive(:new).with({:count => 1}).and_return(@config)
-
-        @api.search_web "monkeys", :count => 1
-      end
-
+      lambda { @api.search_web "monkey"  }.should raise_error(Boss::BossError)
     end
+
+  end
+
+  describe "configuring search" do
+
+    before(:each) do
+      Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
+      Boss::ResultFactory.stub!(:build)
+
+      @config = Boss::Config.new
+    end
+
+    it "should allow configuring through block" do
+      @config.should_receive(:count=).with(1)
+      Boss::Config.should_receive(:new).and_return(@config)
+
+      result = @api.search_web "monkeys" do |setup|
+        setup.count = 1
+      end
+    end
+
+    it "should allow configuring through hash" do
+      Boss::Config.should_receive(:new).with({:count => 1}).and_return(@config)
+
+      @api.search_web "monkeys", :count => 1
+    end
+
   end
 
   describe "formats" do
@@ -125,7 +133,7 @@ describe Boss::Api do
     it "should raise an error invalid format" do
       lambda { @api.search_web "monkeys", :format => 'grilled_cheese', :count => 1 }.should raise_error(Boss::InvalidFormat)
     end
-    
+
     it "should raise an error on invalid count" do
       lambda { @api.search_web "monkeys", :count => 0 }.should raise_error(Boss::InvalidConfig)
     end
