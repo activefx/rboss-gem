@@ -13,7 +13,9 @@ describe Boss::Config do
   it "should create url from defaults" do
     config = Boss::Config.new :count => 1, :lang => 'en', :format => "object"
   
-    config.to_url.should == "&count=1&format=object&lang=en"
+    config.to_url.should include("&count=1")
+    config.to_url.should include("&format=object")
+    config.to_url.should include("&lang=en")
   end
   
   it "should add custom values to url" do
