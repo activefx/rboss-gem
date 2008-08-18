@@ -23,12 +23,14 @@ Return results as:
 * Plain old ruby objects (POROs)
 
 h2. INSTALL:
+
 <pre><code>
   gem sources --add http://gems.github.com/ 
   gem install eshopworks-rboss-gem
 </code></pre>
 
 h2. USAGE:
+
 <pre><code>
   api = Boss::Api.new('api-key-got-from-yahoo')
   api.search('monkeys')
