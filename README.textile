@@ -1,6 +1,7 @@
 h1. RBoss-gem Yahoo Boss Search
 
 "Yahoo boss search":http://developer.yahoo.com/search/boss/
+
 "Yahoo boss API":http://developer.yahoo.com/search/boss/boss_guide/
 
 h2.  DESCRIPTION:
@@ -10,26 +11,24 @@ A handy gem to make using the Yahoo Boss API nice and easy in ruby.
 h2.  FEATURES:
 
 Search
- * images
- * news
- * web
+* Images
+* News
+* Web
 
 Also spelling suggestions
 
-Return results as 
- * JSON
- * XML
- * Plain old ruby objects (POROs)
+Return results as:
+* JSON string
+* XML string
+* Plain old ruby objects (POROs)
 
 h2. INSTALL:
-
 <pre><code>
   gem sources --add http://gems.github.com/ 
   gem install eshopworks-rboss-gem
 </code></pre>
 
 h2. USAGE:
-
 <pre><code>
   api = Boss::Api.new('api-key-got-from-yahoo')
   api.search('monkeys')
@@ -53,7 +52,7 @@ h2. USAGE:
   end
 </code></pre>
   
-Check http://developer.yahoo.com/search/boss/boss_guide/ for the different values accessible for news/images/web/spell ruby object results
+Check "http://developer.yahoo.com/search/boss/boss_guide/":http://developer.yahoo.com/search/boss/boss_guide/ for the different values accessible for news/images/web/spell ruby object results
 
 h2.  LICENSE:
 
