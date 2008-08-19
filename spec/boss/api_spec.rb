@@ -90,7 +90,7 @@ describe Boss::Api do
 
   describe "search should still work when get returns a successful but not code 200" do
     it "should description" do
-      pending("")
+      pending("fix for http://rboss.lighthouseapp.com/projects/15732/tickets/1")
       Net::HTTP.stub!(:get_response).and_return{ mock_http_response :code => "206" }
 
       lambda { @api.search_web "monkey"  }.should_not raise_error(Boss::BossError)

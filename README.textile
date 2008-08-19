@@ -8,7 +8,7 @@ h2.  DESCRIPTION:
 
 A handy gem to make using the Yahoo Boss API nice and easy in ruby.
 
-Bug Tracking: "http://rboss.lighthouseapp.com/projects/15730-rboss/overview":http://rboss.lighthouseapp.com/projects/15730-rboss/overview
+Bug Tracking: "http://eshopworks.lighthouseapp.com/projects/15732-rboss/overview":http://eshopworks.lighthouseapp.com/projects/15732-rboss/overview
 
 h2.  FEATURES:
 
