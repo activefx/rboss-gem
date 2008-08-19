@@ -72,6 +72,22 @@ h2. USAGE:
     config.count = 5
   end
 </code></pre>
+
+h3. Web Search Result
+
+<code>
+  results = api.search_web('monkeys')
+  results.each do |web|
+    puts web.abstract
+    puts web.date
+    puts web.dispurl  #Returns the URLs of documents matching the query result.
+    puts web.clickurl #navigation URL that leads to the target URL for each result
+    puts web.size     #document’s size in bytes
+    puts web.title
+    puts web.url
+  end
+</code>
+
   
 Check "http://developer.yahoo.com/search/boss/boss_guide/":http://developer.yahoo.com/search/boss/boss_guide/ for the different values accessible for news/images/web/spell ruby object results
 
