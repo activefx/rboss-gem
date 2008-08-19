@@ -47,6 +47,12 @@ h2. USAGE:
   # lang = eng
   api.search('monkeys')
   
+  #Delimit multiple search terms with commas
+  api.search('dancing,monkeys')
+
+  #Delimit Exact searchs with quotation marks
+  api.search("'dancing monkeys'")
+    
   #Search images, spelling, news and web
   api.search_images('monkeys')
   api.search_spelling('monkeys')
