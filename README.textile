@@ -29,10 +29,14 @@ h2. INSTALL:
   gem install eshopworks-rboss
 </code></pre>
 
+Get a yahoo boss api-key: "http://developer.yahoo.com/wsregapp":http://developer.yahoo.com/wsregapp
+
 h2. USAGE:
 
 <pre><code>
-  api = Boss::Api.new('api-key-got-from-yahoo')
+  api = Boss::Api.new('boss-api-key-got-from-yahoo')
+  
+  #Search defaults to web search
   api.search('monkeys')
   
   #Search images, spelling, news and web
@@ -46,10 +50,10 @@ h2. USAGE:
   results.each { |web| puts web.title }
 
   #Configure search with hash
-  api.search_spelling('monkeys', :format => 'xml')
+  xml = api.search_spelling('monkeys', :format => 'xml')
 
   #Configure search with block
-  api.search_spelling('monkeys') do |config|
+  xml = api.search_spelling('monkeys') do |config|
     config.format = 'xml'
   end
 </code></pre>

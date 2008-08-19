@@ -3,6 +3,8 @@ License.txt
 Manifest.txt
 README.textile
 Rakefile
+TODO.txt
+bin/rboss
 config/hoe.rb
 config/requirements.rb
 gem_tasks/deployment.rake
