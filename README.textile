@@ -75,7 +75,7 @@ h2. USAGE:
 
 h3. Web Search Result
 
-<code>
+<pre><code>
   results = api.search_web('monkeys')
   results.each do |web|
     puts web.abstract
@@ -86,7 +86,7 @@ h3. Web Search Result
     puts web.title
     puts web.url
   end
-</code>
+</code></pre>
 
   
 Check "http://developer.yahoo.com/search/boss/boss_guide/":http://developer.yahoo.com/search/boss/boss_guide/ for the different values accessible for news/images/web/spell ruby object results
