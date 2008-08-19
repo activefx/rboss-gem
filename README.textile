@@ -8,6 +8,8 @@ h2.  DESCRIPTION:
 
 A handy gem to make using the Yahoo Boss API nice and easy in ruby.
 
+Bug Tracking: "http://rboss.lighthouseapp.com/projects/15730-rboss/overview":http://rboss.lighthouseapp.com/projects/15730-rboss/overview
+
 h2.  FEATURES:
 
 Search
@@ -34,9 +36,15 @@ Get a yahoo boss api-key: "http://developer.yahoo.com/wsregapp":http://developer
 h2. USAGE:
 
 <pre><code>
+  require 'rubygems'
+  require 'boss'
+  
   api = Boss::Api.new('boss-api-key-got-from-yahoo')
   
-  #Search defaults to web search
+  #Search defaults to web search with following defaults
+  # count = 10  
+  # format = PORO (ruby object)
+  # lang = eng
   api.search('monkeys')
   
   #Search images, spelling, news and web
@@ -50,11 +58,12 @@ h2. USAGE:
   results.each { |web| puts web.title }
 
   #Configure search with hash
-  xml = api.search_spelling('monkeys', :format => 'xml')
+  xml = api.search_spelling('monkeys', :format => 'xml', :count => 5)
 
   #Configure search with block
   xml = api.search_spelling('monkeys') do |config|
     config.format = 'xml'
+    config.count = 5
   end
 </code></pre>
   
