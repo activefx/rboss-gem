@@ -88,8 +88,20 @@ h3. Web Search Result
   end
 </code></pre>
 
+h3. News Search Result
+<pre><code>
+  results = api.search_news('monkeys')
+</code></pre>
   
-Check "http://developer.yahoo.com/search/boss/boss_guide/":http://developer.yahoo.com/search/boss/boss_guide/ for the different values accessible for news/images/web/spell ruby object results
+h3. Image Search Result
+<pre><code>
+  results = api.search_image('monkeys')
+</code></pre>
+h3. Spell Search Result
+<pre><code>
+  results = api.search_spelling('monkeys')
+</code></pre>
+
 
 h2.  LICENSE:
 
