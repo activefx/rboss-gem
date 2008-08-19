@@ -26,23 +26,28 @@ module Boss
       @endpoint = 'http://boss.yahooapis.com/ysearch/'
     end
 
+    def search(term, *conditions, &block)
+       search_boss term, SearchType::WEB, *conditions, &block
+    end
+
     def search_images(term, *conditions, &block)
-      search term, SearchType::IMAGES, *conditions, &block
+      search_boss term, SearchType::IMAGES, *conditions, &block
     end
 
     def search_news(term, *conditions, &block)
-      search term, SearchType::NEWS, *conditions, &block
+      search_boss term, SearchType::NEWS, *conditions, &block
     end
 
     def search_web(term, *conditions, &block)
-      search term, SearchType::WEB, *conditions, &block
+      search_boss term, SearchType::WEB, *conditions, &block
     end
 
     def search_spelling(term, *conditions, &block)
-      search term, SearchService::SPELL, *conditions, &block
+      search_boss term, SearchService::SPELL, *conditions, &block
     end
 
-    def search(terms, search_type=SearchType::WEB, config = {})
+    private
+    def search_boss(terms, search_type=SearchType::WEB, config = {})
       config = config.empty? ? Config.new : Config.new(config)
       search_results = []
 
