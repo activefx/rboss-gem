@@ -90,7 +90,11 @@ module Boss
     end
 
     def encode_for_url(terms)
-      CGI.escape(terms)
+      clean_terms=[]
+      terms.split(',').each do |term|
+        clean_terms << CGI.escape(term)        
+      end
+      clean_terms.join(',')
     end
     
     def boss_version
