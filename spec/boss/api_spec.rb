@@ -4,7 +4,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe Boss::Api do
 
   def mock_http_response(stubs={})
-    mock('http_response', {:body => 'pretend:"json"', :code => "200"}.merge(stubs))
+    mock('http_response', {:body => '{"ysearchresponse":{}}', :code => "200"}.merge(stubs))
   end
 
   before(:each) do
@@ -15,14 +15,13 @@ describe Boss::Api do
 
     it "should make a spelling request to yahoo service" do
       Net::HTTP.should_receive(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.stub!(:build)
 
       @api.search_spelling "girafes"
     end
 
     it "should build the spelling objects" do
       Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.should_receive(:build).with(Boss::SearchService::SPELL, 'pretend:"json"')
+      Boss::ResultFactory.should_receive(:build).with(Boss::SearchService::SPELL, '{"ysearchresponse":{}}')
 
       @api.search_spelling "girafes"
     end
@@ -32,14 +31,13 @@ describe Boss::Api do
   describe "responding to news search" do
     it "should make a news request to yahoo service" do
       Net::HTTP.should_receive(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.stub!(:build)
 
       @api.search_news "monkey"
     end
 
     it "should build the news objects" do
       Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.should_receive(:build).with(Boss::SearchType::NEWS, 'pretend:"json"')
+      Boss::ResultFactory.should_receive(:build).with(Boss::SearchType::NEWS, '{"ysearchresponse":{}}')
 
       @api.search_news "monkey"
     end
@@ -48,14 +46,13 @@ describe Boss::Api do
   describe "responding to image search" do
     it "should make a image request to yahoo service" do
       Net::HTTP.should_receive(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.stub!(:build)
 
       @api.search_images "hippo"
     end
 
     it "should build the image objects" do
       Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.should_receive(:build).with(Boss::SearchType::IMAGES, 'pretend:"json"')
+      Boss::ResultFactory.should_receive(:build).with(Boss::SearchType::IMAGES, '{"ysearchresponse":{}}')
 
       @api.search_images "hippo"
     end
@@ -65,13 +62,13 @@ describe Boss::Api do
 
     it "should make a web request to yahoo service" do
       Net::HTTP.should_receive(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.stub!(:build)
+
       @api.search_web "monkey"
     end
 
     it "should build the web objects" do
       Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.should_receive(:build).with(Boss::SearchType::WEB, 'pretend:"json"')
+      Boss::ResultFactory.should_receive(:build).with(Boss::SearchType::WEB, '{"ysearchresponse":{}}')
 
       @api.search_web "monkey"
     end
@@ -88,20 +85,10 @@ describe Boss::Api do
 
   end
 
-  describe "search should still work when get returns a successful but not code 200" do
-    it "should description" do
-      pending("fix for http://rboss.lighthouseapp.com/projects/15732/tickets/1")
-      Net::HTTP.stub!(:get_response).and_return{ mock_http_response :code => "206" }
-
-      lambda { @api.search_web "monkey"  }.should_not raise_error(Boss::BossError)
-    end
-  end
-
   describe "configuring search" do
 
     before(:each) do
       Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.stub!(:build)
 
       @config = Boss::Config.new
     end
@@ -147,6 +134,25 @@ describe Boss::Api do
       lambda { @api.search_web "monkeys", :count => 0 }.should raise_error(Boss::InvalidConfig)
     end
 
+  end
+
+  describe "search should still work when get returns a successful but not code 200" do
+    it "should description" do
+      pending("fix for http://eshopworks.lighthouseapp.com/projects/15732/tickets/1")
+      Net::HTTP.stub!(:get_response).and_return{ mock_http_response :code => "206" }
+
+      lambda { @api.search_web "monkey"  }.should_not raise_error(Boss::BossError)
+    end
+  end
+
+  describe "searching with invalid url characters" do
+    it "should encode invalid characters" do
+      Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
+      # pending("fix for http://eshopworks.lighthouseapp.com/projects/15732/tickets/2")
+      @api.should_receive(:query_url).with("monkey%3Fmagic", anything, anything).and_return("monkey%3Fmagic")
+
+      @api.search_web "monkey?magic"
+    end
   end
 
 end

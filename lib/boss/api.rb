@@ -3,6 +3,8 @@ require 'rexml/document'
 require 'uri'
 
 require 'ostruct'
+require 'cgi'
+  
   
 module Boss
 
@@ -56,7 +58,9 @@ module Boss
       raise InvalidFormat unless (FORMATS.include? config.format)
       raise InvalidConfig unless (config.count>0)
         
-      response = Net::HTTP.get_response(URI.parse(query_url(terms, search_type, config)))
+      query = encode_for_url terms  
+        
+      response = Net::HTTP.get_response(URI.parse(query_url(query, search_type, config)))
 
       case response.code
       when "200"
@@ -74,7 +78,9 @@ module Boss
       search_results
     end
     
+    #TODO: parse error responses
     def parse_error(data)
+      "Error contacting yahoo webservice"
     end
 
     protected
@@ -83,6 +89,10 @@ module Boss
       "#{@endpoint}#{search_type}/#{boss_version}/#{terms}?appid=#{@app_id}#{config.to_url}"
     end
 
+    def encode_for_url(terms)
+      CGI.escape(terms)
+    end
+    
     def boss_version
       "v#{Boss::YAHOO_VERSION}"
     end
