@@ -43,7 +43,7 @@ h2. USAGE:
   
   #Search defaults to web search with following defaults
   # count = 10  
-  # format = PORO (ruby object)
+  # format = object (ruby object)
   # lang = eng
   api.search('monkeys')
   
