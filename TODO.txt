@@ -1,3 +1,4 @@
 == FEATURES/PROBLEMS:
 
 * Search all
+* TODO: cleanup encode_for_url

@@ -59,8 +59,9 @@ module Boss
       raise InvalidConfig unless (config.count>0)
         
       query = encode_for_url terms  
-        
-      response = Net::HTTP.get_response(URI.parse(query_url(query, search_type, config)))
+      
+      request = URI.parse(query_url(query, search_type, config))
+      response = Net::HTTP.get_response(request)
 
       case response.code
       when "200"
@@ -85,20 +86,23 @@ module Boss
 
     protected
     def query_url(terms, search_type, config)
-      #puts "#{@endpoint}#{search_type}/#{boss_version}/#{terms}?appid=#{@app_id}#{config.to_url}"
+      # puts "#{@endpoint}#{search_type}/#{boss_version}/#{terms}?appid=#{@app_id}#{config.to_url}"
       "#{@endpoint}#{search_type}/#{boss_version}/#{terms}?appid=#{@app_id}#{config.to_url}"
     end
 
+    protected
+    def boss_version
+      "v#{Boss::YAHOO_VERSION}"
+    end
+
+    private
+    #TODO: We could use URI.encode but it leaves things like ? unencoded which fails search. Is there a better way?
     def encode_for_url(terms)
       clean_terms=[]
       terms.split(',').each do |term|
-        clean_terms << CGI.escape(term)        
+        clean_terms << CGI.escape(term).gsub('%27',"'") #Preserve ' for exact matches
       end
       clean_terms.join(',')
-    end
-    
-    def boss_version
-      "v#{Boss::YAHOO_VERSION}"
     end
 
   end
