@@ -92,6 +92,17 @@ h3. News Search Result
 
 <pre><code>
   results = api.search_news('monkeys')
+  results.each do |news|
+    puts news.abstract
+    puts news.clickurl
+    puts news.title
+    puts news.language
+    puts news.date
+    puts news.time
+    puts news.source
+    puts news.sourceurl
+    puts news.url
+  end
 </code></pre>
   
 h3. Image Search Result
