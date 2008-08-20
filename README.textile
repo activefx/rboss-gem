@@ -133,6 +133,9 @@ h3. Spell Search Result
 
 <pre><code>
   results = api.search_spelling('monkeys')
+  results.each do |spell|
+    puts spell.suggestion
+  end
 </code></pre>
 
 
