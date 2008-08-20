@@ -99,22 +99,22 @@ h3. Image Search Result
 <pre><code>
   results = api.search_image('monkeys')
   results.each do |image|
-    image.abstract
-    image.clickurl
-    image.filename
-    image.size
-    image.format
-    image.height
-    image.date
-    image.mimetype
-    image.refererclickurl
-    image.refererurl
-    image.title
-    image.url
-    image.width
-    image.thumbnail_height
-    image.thumbnail_url
-    image.thumbnail_width
+    puts image.abstract
+    puts image.clickurl
+    puts image.filename
+    puts image.size
+    puts image.format
+    puts image.height
+    puts image.date
+    puts image.mimetype
+    puts image.refererclickurl
+    puts image.refererurl
+    puts image.title
+    puts image.url
+    puts image.width
+    puts image.thumbnail_height
+    puts image.thumbnail_url
+    puts image.thumbnail_width
   end
 </code></pre>
 
