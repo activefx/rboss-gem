@@ -1,14 +1,14 @@
-h1. RBoss-gem Yahoo Boss Search
-
-"Yahoo boss search":http://developer.yahoo.com/search/boss/
-
-"Yahoo boss API":http://developer.yahoo.com/search/boss/boss_guide/
+h1. RBoss Gem - Yahoo! Boss Search
 
 h2.  DESCRIPTION:
 
 A handy gem to make using the Yahoo Boss API nice and easy in ruby.
 
-Bug Tracking: "http://eshopworks.lighthouseapp.com/projects/15732-rboss/overview":http://eshopworks.lighthouseapp.com/projects/15732-rboss/overview
+"Yahoo! Boss Search official site":http://developer.yahoo.com/search/boss/
+
+"Yahoo! Boss Search API":http://developer.yahoo.com/search/boss/boss_guide/
+
+Add feature requests and bugs here: "http://eshopworks.lighthouseapp.com/projects/15732-rboss/overview":http://eshopworks.lighthouseapp.com/projects/15732-rboss/overview
 
 h2.  FEATURES:
 
