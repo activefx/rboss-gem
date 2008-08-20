@@ -80,8 +80,8 @@ h3. Web Search Result
   results.each do |web|
     puts web.abstract
     puts web.date
-    puts web.dispurl  #Returns the URLs of documents matching the query result.
-    puts web.clickurl #navigation URL that leads to the target URL for each result
+    puts web.dispurl  #URL of document matching the query result.
+    puts web.clickurl #navigation URL that leads to the target URL
     puts web.size     #document’s size in bytes
     puts web.title
     puts web.url
@@ -98,6 +98,24 @@ h3. Image Search Result
 
 <pre><code>
   results = api.search_image('monkeys')
+  results.each do |image|
+    image.abstract
+    image.clickurl
+    image.filename
+    image.size
+    image.format
+    image.height
+    image.date
+    image.mimetype
+    image.refererclickurl
+    image.refererurl
+    image.title
+    image.url
+    image.width
+    image.thumbnail_height
+    image.thumbnail_url
+    image.thumbnail_width
+  end
 </code></pre>
 
 h3. Spell Search Result
