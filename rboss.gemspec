@@ -1,10 +1,10 @@
 Gem::Specification.new do |s|
   s.name = %q{rboss}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Joseph Wilk"]
-  s.date = %q{2008-08-19}
+  s.date = %q{2008-08-21}
   s.description = %q{Api wrapping Yahoo Boss search}
   s.email = ["joe@eshopworks.co.uk"]
   s.extra_rdoc_files = ["History.txt", "License.txt", "Manifest.txt", "TODO.txt"]
