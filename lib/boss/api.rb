@@ -65,7 +65,7 @@ module Boss
       raise InvalidFormat unless (FORMATS.include? config.format)
       raise InvalidConfig unless (config.count>0)
       
-      request = query_url terms, search_type, config
+      request = build_request_url terms, search_type, config
       response = Net::HTTP.get_response request
 
       case response.code
@@ -90,7 +90,7 @@ module Boss
     end
 
     protected
-    def query_url(terms, search_type, config)
+    def build_request_url(terms, search_type, config)
       #We could use URI.encode but it leaves things like ? unencoded which fails search.
       encoded_terms = CGI.escape terms
       # puts "#{@endpoint}#{search_type}/#{boss_version}/#{encoded_terms}?appid=#{@app_id}#{config.to_url}"
