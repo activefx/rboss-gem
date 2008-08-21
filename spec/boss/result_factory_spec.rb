@@ -10,6 +10,7 @@ describe Boss::ResultFactory do
    
    spelling_json_result = '{"ysearchresponse":{"responsecode":"200","totalhits":"1","count":"1","start":"0","resultset_spell":[{"suggestion":"giraffes"}]}}'
 
+   error_json_result = '{"Error":"true"}'
 
   it "should create a new news object from json" do
     Boss::Result::News.should_receive(:new).once
@@ -39,6 +40,10 @@ describe Boss::ResultFactory do
     Boss::Result::Spell.should_receive(:new).once
     
     Boss::ResultFactory.build(Boss::SearchType::SPELL, spelling_json_result)
+  end
+  
+  it "should raise an error if json result carries an error" do
+    lambda { Boss::ResultFactory.build(Boss::SearchType::WEB, error_json_result) }.should raise_error(Boss::BossError)
   end
   
 end
