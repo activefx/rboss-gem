@@ -51,7 +51,7 @@ h2. USAGE:
   api.search('dancing,monkeys')
 
   #Delimit Exact searchs with quotation marks
-  api.search("'dancing monkeys'")
+  api.search('"dancing monkeys"')
     
   #Search images, spelling, news and web
   api.search_images('monkeys')
