@@ -50,7 +50,7 @@ h2. USAGE:
   #Delimit multiple search terms with commas
   api.search('dancing,monkeys')
 
-  #Delimit Exact searchs with quotation marks
+  #Delimit Exact search with quotation marks
   api.search('"dancing monkeys"')
     
   #Search images, spelling, news and web
@@ -72,6 +72,20 @@ h2. USAGE:
     config.count = 5
   end
 </code></pre>
+
+h3. Global Search Options
+
+<pre><code>
+  api.search('monkeys') do |config|
+    config.start = 1
+    config.count = 10
+    config.lang = 'en'
+    config.region = 'us'
+    config.format = 'xml'
+    config.callback = ''
+    config.sites = 'abc.com,cnn.com'
+  end
+</pre></code>
 
 h3. Web Search Result
 
