@@ -18,4 +18,10 @@ desc "Run the specs under spec/models"
 Spec::Rake::SpecTask.new do |t|
   t.spec_opts = ['--options', "spec/spec.opts"]
   t.spec_files = FileList['spec/**/*_spec.rb']
+
+  unless ENV['NO_RCOV']
+    t.rcov = true
+    t.rcov_dir = 'coverage'
+    t.rcov_opts = ['--exclude', 'spec\/boss,bin\/spec,examples,\/var\/lib\/gems,\/Library\/Ruby,\.autotest']
+  end
 end
