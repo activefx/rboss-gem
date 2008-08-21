@@ -9,6 +9,7 @@ describe Boss::Api do
 
   before(:each) do
     @api = Boss::Api.new( appid = 'test' )
+    @api.endpoint = 'http://www.example.com/'
   end
 
   describe "responding to spelling search" do
@@ -148,25 +149,10 @@ describe Boss::Api do
   describe "searching terms" do
     it "should encode invalid characters" do
       Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-      @api.should_receive(:query_url).with("monkey%3Fmagic", anything, anything).and_return("monkey%3Fmagic")
-
+      CGI.stub!(:escape)
+      CGI.should_receive(:escape).with('monkey?magic').and_return('monkey%3Fmagic')
+      
       @api.search_web "monkey?magic"
-    end
-    
-    it "should not encode commas characters" do
-      Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-      # pending("fix for http://eshopworks.lighthouseapp.com/projects/15732/tickets/2")
-      @api.should_receive(:query_url).with("monkey,magic", anything, anything).and_return("monkey%3Fmagic")
-
-      @api.search_web "monkey,magic"
-    end
-
-    it "should not encode exact match quotes" do
-      Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-      # pending("fix for http://eshopworks.lighthouseapp.com/projects/15732/tickets/2")
-      @api.should_receive(:query_url).with("'monkey+magic'", anything, anything).and_return("monkey%3Fmagic")
-
-      @api.search_web "'monkey magic'"
     end
     
   end

@@ -24,4 +24,10 @@ describe Boss::Config do
     config.to_url.should include("&mizaru=cannot_see")
   end
   
+  it "should encode invalid url characters" do
+    config = Boss::Config.new :mizaru => 'dancing monkeys?'
+    
+    config.to_url.should include("dancing+monkeys%3F")
+  end
+  
 end

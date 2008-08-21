@@ -8,7 +8,7 @@ module Boss
     end
    
     def to_url
-      self.marshal_dump.inject("") {|accum, key| accum+="&#{key[0]}=#{key[1]}"  }
+      self.marshal_dump.inject("") {|accum, key| encoded_value=CGI.escape(key[1].to_s); accum+="&#{key[0]}=#{encoded_value}"  }
     end
 
   end
