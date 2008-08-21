@@ -11,6 +11,7 @@ gem_tasks/environment.rake
 gem_tasks/fix_cr_lf.rake
 gem_tasks/gemspec.rake
 gem_tasks/rspec.rake
+gem_tasks/verify_rcov.rake
 gem_tasks/website.rake
 lib/boss.rb
 lib/boss/api.rb
