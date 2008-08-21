@@ -1,2 +1,7 @@
-== 0.1.0
+=== Version 0.1.1
+* Fixed exact search error
+* search method takes the same arguments as other search methods
+* Encodes parameters correctly
+
+=== Version 0.1.0
 * Brand spanking new release.
