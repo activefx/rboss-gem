@@ -4,6 +4,7 @@ $:.unshift(File.dirname(__FILE__)) unless
 require 'boss/api'
 require 'boss/config'
 require 'boss/result'
+require 'boss/result_collection'
 require 'boss/result_factory'
 require 'boss/version'
 

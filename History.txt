@@ -1,3 +1,6 @@
+=== Version 0.1.2
+* Maintain search result data in ResultCollection
+
 === Version 0.1.1
 * Fixed exact search error
 * search method takes the same arguments as other search methods

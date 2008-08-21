@@ -19,13 +19,13 @@ describe Boss::Config do
   end
   
   it "should add custom values to url" do
-    config = Boss::Config.new :mizaru => 'cannot_see'
+    config = Boss::Config.new(:mizaru => 'cannot_see')
     
     config.to_url.should include("&mizaru=cannot_see")
   end
   
   it "should encode invalid url characters" do
-    config = Boss::Config.new :mizaru => 'dancing monkeys?'
+    config = Boss::Config.new(:mizaru => 'dancing monkeys?')
     
     config.to_url.should include("dancing+monkeys%3F")
   end

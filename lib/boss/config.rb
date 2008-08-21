@@ -1,3 +1,5 @@
+require 'ostruct'
+
 module Boss
 
   class Config < OpenStruct

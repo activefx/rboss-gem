@@ -18,31 +18,31 @@ module Boss
         if json_hash.has_key? 'Error'
           raise BossError, "Web service error"
         end
-
-        search_results=[]
                 
-        if has_results json_hash, :for => search_type
+        result_collection = ResultCollection.new(json_hash[SEARCH_RESPONSE])
+                
+        if has_results?(json_hash, :for => search_type)
 
           json_hash[SEARCH_RESPONSE]["#{RESULT_SET}_#{search_type}"].each do |result|
 
             case search_type
             when SearchType::WEB
-              search_results << Result::Web.new(result)
+              result_collection << Result::Web.new(result)
             when SearchType::IMAGES
-              search_results << Result::Image.new(result)
+              result_collection << Result::Image.new(result)
             when SearchType::NEWS
-              search_results << Result::News.new(result)
+              result_collection << Result::News.new(result)
             when SearchType::SPELL
-              search_results << Result::Spell.new(result)
+              result_collection << Result::Spell.new(result)
             end
 
           end
         end
 
-        search_results
+        result_collection
       end
 
-      def has_results(json_hash, type={})
+      def has_results?(json_hash, type={})
         !(json_hash[SEARCH_RESPONSE]["#{RESULT_SET}_#{type[:for]}"]).nil?
       end
 

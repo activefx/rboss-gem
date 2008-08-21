@@ -22,11 +22,13 @@ lib/boss/result/image.rb
 lib/boss/result/news.rb
 lib/boss/result/spell.rb
 lib/boss/result/web.rb
+lib/boss/result_collection.rb
 lib/boss/result_factory.rb
 lib/boss/version.rb
 rboss.gemspec
 spec/boss/api_spec.rb
 spec/boss/config_spec.rb
+spec/boss/result_collection_spec.rb
 spec/boss/result_factory_spec.rb
 spec/spec.opts
 spec/spec_helper.rb

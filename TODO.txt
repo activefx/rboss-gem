@@ -1,4 +1,4 @@
 == FEATURES/PROBLEMS:
 
 * Search all
-* TODO: cleanup encode_for_url
+* Clean up ResultCollection, we store hash result in ResultCollection aswell as objects.

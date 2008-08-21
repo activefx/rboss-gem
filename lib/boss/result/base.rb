@@ -1,3 +1,5 @@
+require 'ostruct'
+
 module Boss
   module Result
     class Base < OpenStruct

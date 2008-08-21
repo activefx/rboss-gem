@@ -2,7 +2,6 @@ require 'net/http'
 require 'rexml/document'
 require 'uri'
 
-require 'ostruct'
 require 'cgi'
   
   
@@ -29,23 +28,23 @@ module Boss
     end
 
     def search(term, *conditions, &block)
-       search_boss term, SearchType::WEB, *conditions, &block
+       search_boss(term, SearchType::WEB, *conditions, &block)
     end
 
     def search_images(term, *conditions, &block)
-      search_boss term, SearchType::IMAGES, *conditions, &block
+      search_boss(term, SearchType::IMAGES, *conditions, &block)
     end
 
     def search_news(term, *conditions, &block)
-      search_boss term, SearchType::NEWS, *conditions, &block
+      search_boss(term, SearchType::NEWS, *conditions, &block)
     end
 
     def search_web(term, *conditions, &block)
-      search_boss term, SearchType::WEB, *conditions, &block
+      search_boss(term, SearchType::WEB, *conditions, &block)
     end
 
     def search_spelling(term, *conditions, &block)
-      search_boss term, SearchService::SPELL, *conditions, &block
+      search_boss(term, SearchService::SPELL, *conditions, &block)
     end
 
     private
@@ -65,15 +64,15 @@ module Boss
       raise InvalidFormat unless (FORMATS.include? config.format)
       raise InvalidConfig unless (config.count>0)
       
-      request = build_request_url terms, search_type, config
-      response = Net::HTTP.get_response request
+      request =  URI.parse(build_request_url(terms, search_type, config))
+      response = Net::HTTP.get_response(request)
 
       case response.code
       when "200"
         data = response.body
       
         if format_as_objects
-          search_results = ResultFactory.build search_type, data
+          search_results = ResultFactory.build(search_type, data)
         else
           search_results = data
         end
@@ -92,7 +91,7 @@ module Boss
     protected
     def build_request_url(terms, search_type, config)
       #We could use URI.encode but it leaves things like ? unencoded which fails search.
-      encoded_terms = CGI.escape terms
+      encoded_terms = CGI.escape(terms)
       # puts "#{@endpoint}#{search_type}/#{boss_version}/#{encoded_terms}?appid=#{@app_id}#{config.to_url}"
       "#{@endpoint}#{search_type}/#{boss_version}/#{encoded_terms}?appid=#{@app_id}#{config.to_url}"
     end
