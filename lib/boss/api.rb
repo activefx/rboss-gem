@@ -85,7 +85,7 @@ module Boss
     
     #TODO: parse error responses
     def parse_error(data)
-      "Error contacting yahoo webservice"
+      "Error contacting Yahoo Boss web-service"
     end
 
     protected
