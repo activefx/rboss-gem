@@ -73,8 +73,8 @@ h2. USAGE:
   end
   
   #Access general search result information
-  result = api.search('monkeys', :count => 5)
-  puts result.totalhits
+  results = api.search('monkeys', :count => 5)
+  puts results.totalhits
 </code></pre>
 
 h3. Global Search Options
@@ -91,7 +91,7 @@ h3. Global Search Options
   end
 </pre></code>
 
-h3. Global Search Results data(Applies to news/images/web search results)
+h3. Global Search Results data (applies to news/images/web search results)
 
 <pre><code>
   results = api.search('monkeys', :count => 1)
@@ -142,7 +142,7 @@ h3. Image Search Result
 <pre><code>
   #Add constraint on dimension (possible options: 'small', 'medium', 'large', 'wallpaper')
   #Activate the Offensive Content Reduction filter
-  results = api.search_image('monkeys', :dimensions => 'small', :filter => true)
+  results = api.search_images('monkeys', :dimensions => 'small', :filter => 'true')
   results.each do |image|
     puts image.abstract
     puts image.clickurl
