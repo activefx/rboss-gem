@@ -1,3 +1,6 @@
+=== Version 0.1.3
+* Fix for duplicate information being storied in the ResultCollection
+
 === Version 0.1.2
 * Maintain search result data in ResultCollection
 

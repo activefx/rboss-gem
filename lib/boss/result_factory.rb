@@ -15,39 +15,39 @@ module Boss
 
         json_hash = JSON.parse(data)
 
-        if json_hash.has_key? 'Error'
-          raise BossError, "Web service error"
+        if json_hash.has_key? 'Error' or !json_hash.has_key? SEARCH_RESPONSE
+          raise BossError, "Results from webservice appear to be mangled."
         end
-                
-        result_collection = ResultCollection.new(json_hash[SEARCH_RESPONSE])
-                
-        if has_results?(json_hash, :for => search_type)
 
-          json_hash[SEARCH_RESPONSE]["#{RESULT_SET}_#{search_type}"].each do |result|
+        result_collection = ResultCollection.new
 
-            case search_type
-            when SearchType::WEB
-              result_collection << Result::Web.new(result)
-            when SearchType::IMAGES
-              result_collection << Result::Image.new(result)
-            when SearchType::NEWS
-              result_collection << Result::News.new(result)
-            when SearchType::SPELL
-              result_collection << Result::Spell.new(result)
+        json_hash[SEARCH_RESPONSE].each do |key,value|
+
+          if key == "#{RESULT_SET}_#{search_type}"
+            
+            json_hash[SEARCH_RESPONSE]["#{RESULT_SET}_#{search_type}"].each do |result|
+
+              case search_type
+              when SearchType::WEB
+                result_collection << Result::Web.new(result)
+              when SearchType::IMAGES
+                result_collection << Result::Image.new(result)
+              when SearchType::NEWS
+                result_collection << Result::News.new(result)
+              when SearchType::SPELL
+                result_collection << Result::Spell.new(result)
+              end
+
             end
-
+          else
+            result_collection.set_instance_variable(key, value)
           end
+
         end
-
         result_collection
-      end
-
-      def has_results?(json_hash, type={})
-        !(json_hash[SEARCH_RESPONSE]["#{RESULT_SET}_#{type[:for]}"]).nil?
       end
 
     end
 
   end
-
 end

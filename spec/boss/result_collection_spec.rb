@@ -3,13 +3,14 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe Boss::ResultCollection do
 
   it "should dynamically set instance values given at creation" do
-    collection = Boss::ResultCollection.new({:totalhits => "344"})
+    collection = Boss::ResultCollection.new
+    collection.set_instance_variable(:totalhits, "344")
     
     collection.totalhits.should eql("344")
   end
   
   it "should allow iterating over result collection" do
-    collection = Boss::ResultCollection.new({})
+    collection = Boss::ResultCollection.new
     
     collection << 1
     collection << 2

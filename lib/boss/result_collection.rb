@@ -2,12 +2,13 @@ module Boss
   class ResultCollection 
     include Enumerable
 
-    def initialize(search_data)
-      search_data.each do |name, value|
-        instance_variable_set("@#{name}",value)
-        instance_eval("def #{name}\n @#{name}\n end")        
-      end
+    def initialize
       @results=[]
+    end
+    
+    def set_instance_variable(name, value)
+      instance_variable_set("@#{name}",value)
+      instance_eval("def #{name}\n @#{name}\n end")        
     end
 
     def each

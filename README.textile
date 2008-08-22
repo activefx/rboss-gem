@@ -71,6 +71,10 @@ h2. USAGE:
     config.format = 'xml'
     config.count = 5
   end
+  
+  #Access general search result information
+  result = api.search('monkeys', :count => 5)
+  puts result.totalhits
 </code></pre>
 
 h3. Global Search Options
@@ -87,10 +91,23 @@ h3. Global Search Options
   end
 </pre></code>
 
+h3. Global Search Results data(Applies to news/images/web search results)
+
+<pre><code>
+  results = api.search('monkeys', :count => 1)
+  puts results.deephits      #approximate count that includes duplicates
+  puts results.totalhits     #approximate count that excludes duplicates
+  puts results.responsecode  #response code return by Yahoo webservice
+  puts results.start         #the first numeric result to display
+  puts results.count         #Indicates how many results to show per page
+  puts results.nextpage      #link to what would be the next page of search results
+</pre></code>
+
 h3. Web Search Result
 
 <pre><code>
-  results = api.search_web('monkeys')
+  #We filter here to exclude certain types of content
+  results = api.search_web('monkeys', :filter => '-porn')
   results.each do |web|
     puts web.abstract
     puts web.date
@@ -105,7 +122,8 @@ h3. Web Search Result
 h3. News Search Result
 
 <pre><code>
-  results = api.search_news('monkeys')
+  #We retrieve documents by age (possible options: [1-30]d ) 
+  results = api.search_news('monkeys', :age => '7d')
   results.each do |news|
     puts news.abstract
     puts news.clickurl
@@ -122,7 +140,9 @@ h3. News Search Result
 h3. Image Search Result
 
 <pre><code>
-  results = api.search_image('monkeys')
+  #Add constraint on dimension (possible options: 'small', 'medium', 'large', 'wallpaper')
+  #Activate the Offensive Content Reduction filter
+  results = api.search_image('monkeys', :dimensions => 'small', :filter => true)
   results.each do |image|
     puts image.abstract
     puts image.clickurl
@@ -151,7 +171,6 @@ h3. Spell Search Result
     puts spell.suggestion
   end
 </code></pre>
-
 
 h2.  LICENSE:
 

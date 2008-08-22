@@ -12,11 +12,11 @@ describe Boss::ResultFactory do
 
   error_json_result = '{"Error":"true"}'
 
-  it "should create a result collection" do
-    news_hash = JSON.parse(news_json_result)
-    result_collection = Boss::ResultCollection.new(news_hash)
-    Boss::ResultCollection.should_receive(:new).once.with(news_hash['ysearchresponse']).and_return(result_collection)
-      
+  it "should collect result objects in a result collection" do
+    result_collection = Boss::ResultCollection.new
+    result_collection.should_receive(:<<).once
+    Boss::ResultCollection.should_receive(:new).once.and_return(result_collection)
+    
     Boss::ResultFactory.build(Boss::SearchType::NEWS, news_json_result)
   end
   
