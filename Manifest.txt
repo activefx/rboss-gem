@@ -25,7 +25,6 @@ lib/boss/result/web.rb
 lib/boss/result_collection.rb
 lib/boss/result_factory.rb
 lib/boss/version.rb
-rboss.gemspec
 spec/boss/api_spec.rb
 spec/boss/config_spec.rb
 spec/boss/result_collection_spec.rb
