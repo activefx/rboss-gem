@@ -77,7 +77,7 @@ h2. USAGE:
   puts results.totalhits
 </code></pre>
 
-h3. Global Search Options
+h3. Global Search Options (applies to news/images/web search)
 
 <pre><code>
   api.search('monkeys') do |config|
