@@ -3,7 +3,18 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Boss::Api do
 
+  yahoo_error=<<-EOF
+  <Error xmlns="urn:yahoo:api"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="http://api.yahoo.com/Api/V1/error.xsd">
+    The following errors were detected:
+    <Message>Service not found. Please see http://developer.yahoo.net for service locations</Message>
+  </Error>
+  EOF
+
+  #TODO: Mock HTTPSuccess
   def mock_http_response(stubs={})
+    # mock('Net::HTTPSuccess',{:head => Net::HTTPSuccess.new('1.2', '200', 'OK'), :body => '{"ysearchresponse":{}}' })
     mock('http_response', {:body => '{"ysearchresponse":{}}', :code => "200"}.merge(stubs))
   end
 
@@ -22,7 +33,7 @@ describe Boss::Api do
 
     it "should build the spelling objects" do
       Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.should_receive(:build).with(Boss::SearchService::SPELL, '{"ysearchresponse":{}}')
+      Boss::ResultFactory.should_receive(:build).with(Boss::SearchService::SPELLING, '{"ysearchresponse":{}}')
 
       @api.search_spelling("girafes")
     end
@@ -38,7 +49,7 @@ describe Boss::Api do
 
     it "should build the news objects" do
       Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.should_receive(:build).with(Boss::SearchType::NEWS, '{"ysearchresponse":{}}')
+      Boss::ResultFactory.should_receive(:build).with(Boss::SearchService::NEWS, '{"ysearchresponse":{}}')
 
       @api.search_news("monkey")
     end
@@ -53,7 +64,7 @@ describe Boss::Api do
 
     it "should build the image objects" do
       Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.should_receive(:build).with(Boss::SearchType::IMAGES, '{"ysearchresponse":{}}')
+      Boss::ResultFactory.should_receive(:build).with(Boss::SearchService::IMAGES, '{"ysearchresponse":{}}')
 
       @api.search_images("hippo")
     end
@@ -69,7 +80,7 @@ describe Boss::Api do
 
     it "should build the web objects" do
       Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.should_receive(:build).with(Boss::SearchType::WEB, '{"ysearchresponse":{}}')
+      Boss::ResultFactory.should_receive(:build).with(Boss::SearchService::WEB, '{"ysearchresponse":{}}')
 
       @api.search_web("monkey")
     end
@@ -82,6 +93,12 @@ describe Boss::Api do
       Net::HTTP.stub!(:get_response).and_return{ mock_http_response :code => "404" }
 
       lambda { @api.search_web("monkey")  }.should raise_error(Boss::BossError)
+    end
+    
+    it "should extract error from xml on failed search" do
+      Net::HTTP.stub!(:get_response).and_return{ mock_http_response :code => "404", :body => yahoo_error }
+
+      lambda { @api.search_web("monkey")  }.should raise_error(Boss::BossError, 'Service not found. Please see http://developer.yahoo.net for service locations')
     end
 
   end
@@ -133,6 +150,12 @@ describe Boss::Api do
 
     it "should raise an error on invalid count" do
       lambda { @api.search_web("monkeys", :count => 0) }.should raise_error(Boss::InvalidConfig)
+    end
+    
+    it "should raise an error on invalid app id" do
+      @api = Boss::Api.new( app_id = '' )
+
+      lambda { @api.search("monkeys", :count => 1) }.should raise_error(Boss::InvalidConfig)
     end
 
   end

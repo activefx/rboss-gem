@@ -10,6 +10,12 @@ require 'boss/version'
 
 module Boss
   YAHOO_VERSION = 1
+
+  module SearchService
+    %w[web images news spelling].each { |e| const_set(e.upcase, e) }
+  end
+
+  FORMATS = %w[xml json]
  
   class BossError < StandardError; end
   class InvalidFormat < StandardError; end

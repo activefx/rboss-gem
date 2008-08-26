@@ -2,6 +2,8 @@ module Boss
   class ResultCollection 
     include Enumerable
 
+    attr_reader :results
+
     def initialize
       @results=[]
     end

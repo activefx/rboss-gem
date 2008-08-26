@@ -17,17 +17,17 @@ describe Boss::ResultFactory do
     result_collection.should_receive(:<<).once
     Boss::ResultCollection.should_receive(:new).once.and_return(result_collection)
     
-    Boss::ResultFactory.build(Boss::SearchType::NEWS, news_json_result)
+    Boss::ResultFactory.build(Boss::SearchService::NEWS, news_json_result)
   end
   
   it "should create a new news object from json" do
     Boss::Result::News.should_receive(:new).once
 
-    Boss::ResultFactory.build(Boss::SearchType::NEWS, news_json_result)
+    Boss::ResultFactory.build(Boss::SearchService::NEWS, news_json_result)
   end
 
   it "should correctly map fields with from json to news object" do
-    news_results = Boss::ResultFactory.build(Boss::SearchType::NEWS, news_json_result)
+    news_results = Boss::ResultFactory.build(Boss::SearchService::NEWS, news_json_result)
 
     news_results[0].title.should == "monkey_title"
   end
@@ -35,23 +35,23 @@ describe Boss::ResultFactory do
   it "should build image objects from json" do
     Boss::Result::Image.should_receive(:new).once
 
-    Boss::ResultFactory.build(Boss::SearchType::IMAGES, image_json_result)
+    Boss::ResultFactory.build(Boss::SearchService::IMAGES, image_json_result)
   end
 
   it "should build web object from json" do
     Boss::Result::Web.should_receive(:new).once
 
-    Boss::ResultFactory.build(Boss::SearchType::WEB, web_json_result)
+    Boss::ResultFactory.build(Boss::SearchService::WEB, web_json_result)
   end
 
   it "should build spelling object from json" do
     Boss::Result::Spell.should_receive(:new).once
 
-    Boss::ResultFactory.build(Boss::SearchType::SPELL, spelling_json_result)
+    Boss::ResultFactory.build(Boss::SearchService::SPELLING, spelling_json_result)
   end
 
   it "should raise an error if json result carries an error" do
-    lambda { Boss::ResultFactory.build(Boss::SearchType::WEB, error_json_result) }.should raise_error(Boss::BossError)
+    lambda { Boss::ResultFactory.build(Boss::SearchService::WEB, error_json_result) }.should raise_error(Boss::BossError)
   end
 
 end

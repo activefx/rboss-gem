@@ -7,14 +7,12 @@ describe Boss::Config do
 
     config.respond_to?(:count).should be_true
     config.respond_to?(:lang).should be_true
-    config.respond_to?(:format).should be_true
   end
   
   it "should create url from defaults" do
     config = Boss::Config.new :count => 1, :lang => 'en', :format => "object"
   
     config.to_url.should include("&count=1")
-    config.to_url.should include("&format=object")
     config.to_url.should include("&lang=en")
   end
   

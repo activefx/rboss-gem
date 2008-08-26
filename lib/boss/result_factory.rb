@@ -1,18 +1,21 @@
 require 'json'
 
 module Boss
+    
   class ResultFactory
 
+    module SearchType
+      %w[web images news spell].each { |e| const_set(e.upcase, e) }
+    end
+
+    SEARCH_RESPONSE = 'ysearchresponse'
+    RESULT_SET = 'resultset'
+
     class << self
-
-      SEARCH_RESPONSE = 'ysearchresponse'
-      RESULT_SET = 'resultset'
-
-      def build(search_type, data)
-
-        #Deal with inconsistency between search service 'spelling' and result 'spell'
-        search_type = SearchType::SPELL if search_type == SearchService::SPELL
-
+  
+      def build(search_service, data)
+        search_type = service_to_type search_service
+        
         json_hash = JSON.parse(data)
 
         if json_hash.has_key? 'Error' or !json_hash.has_key? SEARCH_RESPONSE
@@ -23,9 +26,9 @@ module Boss
 
         json_hash[SEARCH_RESPONSE].each do |key,value|
 
-          if key == "#{RESULT_SET}_#{search_type}"
+          if key == "#{RESULT_SET}_#{search_type.downcase}"
             
-            json_hash[SEARCH_RESPONSE]["#{RESULT_SET}_#{search_type}"].each do |result|
+            json_hash[SEARCH_RESPONSE][key].each do |result|
 
               case search_type
               when SearchType::WEB
@@ -46,6 +49,13 @@ module Boss
         end
         result_collection
       end
+
+      private
+      def service_to_type(service)
+         #Deal with inconsistency between search service 'spelling' and result 'spell'
+         service == Boss::SearchService::SPELLING ? SearchType::SPELL : service 
+      end
+
 
     end
 

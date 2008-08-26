@@ -4,19 +4,7 @@ require 'uri'
 
 require 'cgi'
   
-  
 module Boss
-
-  module SearchType
-    %w[web images news spell].each { |e| const_set(e.upcase, e) }
-  end
-
-  module SearchService
-    #Annoying inconsitency between 'spelling' and 'spell' in api
-    SPELL = 'spelling'
-  end
-
-  FORMATS = %w[xml json]
 
   class Api
 
@@ -28,41 +16,33 @@ module Boss
     end
 
     def search(term, *conditions, &block)
-       search_boss(term, SearchType::WEB, *conditions, &block)
+       search_boss(term, SearchService::WEB, *conditions, &block)
     end
 
     def search_images(term, *conditions, &block)
-      search_boss(term, SearchType::IMAGES, *conditions, &block)
+      search_boss(term, SearchService::IMAGES, *conditions, &block)
     end
 
     def search_news(term, *conditions, &block)
-      search_boss(term, SearchType::NEWS, *conditions, &block)
+      search_boss(term, SearchService::NEWS, *conditions, &block)
     end
 
     def search_web(term, *conditions, &block)
-      search_boss(term, SearchType::WEB, *conditions, &block)
+      search_boss(term, SearchService::WEB, *conditions, &block)
     end
 
     def search_spelling(term, *conditions, &block)
-      search_boss(term, SearchService::SPELL, *conditions, &block)
+      search_boss(term, SearchService::SPELLING, *conditions, &block)
     end
 
     private
-    def search_boss(terms, search_type=SearchType::WEB, config = {})
+    def search_boss(terms, search_type=SearchService::WEB, config = {})
       config = config.empty? ? Config.new : Config.new(config)
-      search_results = []
-
       yield config if block_given?
-
-      if config.format == 'object'
-        format_as_objects=true
-        config.format= "json"
-      else
-        format_as_objects=false
-      end
-        
-      raise InvalidFormat unless (FORMATS.include? config.format)
-      raise InvalidConfig unless (config.count>0)
+  
+      raise InvalidFormat, "'#{config.format}' is not a valid format. Valid formats are: #{FORMATS.join(',')}" unless FORMATS.include?(config.format) || config.format?
+      raise InvalidConfig, "count must be > 0" unless config.count>0
+      raise InvalidConfig, "App ID cannot be empty!" if @app_id.empty?
       
       request =  URI.parse(build_request_url(terms, search_type, config))
       response = Net::HTTP.get_response(request)
@@ -71,24 +51,31 @@ module Boss
       when "200"
         data = response.body
       
-        if format_as_objects
+        if config.format?
           search_results = ResultFactory.build(search_type, data)
         else
           search_results = data
         end
       else
-        raise BossError, parse_error(data)
+        raise BossError, parse_error(response)
       end
 
       search_results
     end
     
-    #TODO: parse error responses
+    private
     def parse_error(data)
-      "Error contacting Yahoo Boss web-service"
+      doc = REXML::Document.new(data.body) 
+      # message = doc.elements['Error/Message'].text
+      message = REXML::XPath.first( doc, "//Message" )
+      if message
+        message.text
+      else
+        "Error contacting Yahoo Boss web-service"
+      end
     end
 
-    protected
+    private
     def build_request_url(terms, search_type, config)
       #We could use URI.encode but it leaves things like ? unencoded which fails search.
       encoded_terms = CGI.escape(terms)
@@ -96,7 +83,7 @@ module Boss
       "#{@endpoint}#{search_type}/#{boss_version}/#{encoded_terms}?appid=#{@app_id}#{config.to_url}"
     end
 
-    protected
+    private
     def boss_version
       "v#{Boss::YAHOO_VERSION}"
     end
