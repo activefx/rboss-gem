@@ -13,9 +13,7 @@ module Boss
 
     class << self
   
-      def build(search_service, data)
-        search_type = service_to_type search_service
-        
+      def build(data)
         json_hash = JSON.parse(data)
 
         if json_hash.has_key? 'Error' or !json_hash.has_key? SEARCH_RESPONSE
@@ -26,7 +24,9 @@ module Boss
 
         json_hash[SEARCH_RESPONSE].each do |key,value|
 
-          if key == "#{RESULT_SET}_#{search_type.downcase}"
+          if key.include? "#{RESULT_SET}_"
+
+            search_type = discover_search_type(key)
             
             json_hash[SEARCH_RESPONSE][key].each do |result|
 
@@ -51,12 +51,10 @@ module Boss
       end
 
       private
-      def service_to_type(service)
-         #Deal with inconsistency between search service 'spelling' and result 'spell'
-         service == Boss::SearchService::SPELLING ? SearchType::SPELL : service 
+      def discover_search_type(string)
+        /#{RESULT_SET}_(.*)/.match(string)[1]
       end
-
-
+      
     end
 
   end

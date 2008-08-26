@@ -33,7 +33,7 @@ describe Boss::Api do
 
     it "should build the spelling objects" do
       Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.should_receive(:build).with(Boss::SearchService::SPELLING, '{"ysearchresponse":{}}')
+      Boss::ResultFactory.should_receive(:build).with('{"ysearchresponse":{}}')
 
       @api.search_spelling("girafes")
     end
@@ -49,7 +49,7 @@ describe Boss::Api do
 
     it "should build the news objects" do
       Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.should_receive(:build).with(Boss::SearchService::NEWS, '{"ysearchresponse":{}}')
+      Boss::ResultFactory.should_receive(:build).with('{"ysearchresponse":{}}')
 
       @api.search_news("monkey")
     end
@@ -64,7 +64,7 @@ describe Boss::Api do
 
     it "should build the image objects" do
       Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.should_receive(:build).with(Boss::SearchService::IMAGES, '{"ysearchresponse":{}}')
+      Boss::ResultFactory.should_receive(:build).with('{"ysearchresponse":{}}')
 
       @api.search_images("hippo")
     end
@@ -80,7 +80,7 @@ describe Boss::Api do
 
     it "should build the web objects" do
       Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.should_receive(:build).with(Boss::SearchService::WEB, '{"ysearchresponse":{}}')
+      Boss::ResultFactory.should_receive(:build).with('{"ysearchresponse":{}}')
 
       @api.search_web("monkey")
     end

@@ -52,7 +52,7 @@ module Boss
         data = response.body
       
         if config.format?
-          search_results = ResultFactory.build(search_type, data)
+          search_results = ResultFactory.build(data)
         else
           search_results = data
         end
