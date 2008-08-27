@@ -43,8 +43,8 @@ h2. USAGE:
   
   #Search defaults to web search with following defaults
   # count = 10  
-  # format = object (ruby object)
   # lang = eng
+  # Results by default are ruby objects
   api.search('monkeys')
   
   #Delimit multiple search terms with commas
