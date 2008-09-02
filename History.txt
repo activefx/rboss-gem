@@ -1,4 +1,4 @@
-=== Version 0.1.x
+=== Version 0.1.4
 * Parse yahoo error reports and return message
 * Encapsulate spell/spelling difference into result factory
 * Removed 'object' format in favour of defaulting to object if format is not set
