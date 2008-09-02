@@ -1,3 +1,4 @@
 == FEATURES/PROBLEMS:
 
 * Search all
+* Integrate with Tagging service
