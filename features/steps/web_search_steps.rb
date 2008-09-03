@@ -9,11 +9,24 @@ After do
 end
 
 Given "a valid API key" do
-  @api = Boss::Api.new('put-your-api-key-here')
+  @api = Boss::Api.new("put-your-api-key-here")
 end
 
-When /I search for 'monkeys'/ do
-  @results = @api.search_web('monkeys')
+When /I do a '(.+)' search for '(.+)'/ do |search, term|
+
+  case search
+  when 'web'
+    @results = @api.search_web(term)    
+  when 'news'
+    @results = @api.search_news(term)    
+  when 'images'
+    @results = @api.search_images(term)
+  when 'spell'
+    @results = @api.search_spelling(term)
+  else
+    raise Exception.new "invalid search: #{search}"
+  end
+
 end
 
 Then /I will receive search results/ do
