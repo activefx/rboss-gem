@@ -8,6 +8,7 @@ config/hoe.rb
 config/requirements.rb
 features/steps/web_search_steps.rb
 features/web_search.feature
+gem_tasks/cucumber.rake
 gem_tasks/deployment.rake
 gem_tasks/environment.rake
 gem_tasks/fix_cr_lf.rake
