@@ -18,6 +18,10 @@ describe Boss::Api do
     mock('http_response', {:body => '{"ysearchresponse":{}}', :code => "200"}.merge(stubs))
   end
 
+  def yahoo_json
+    '{"ysearchresponse":{}}'
+  end
+
   before(:each) do
     @api = Boss::Api.new( appid = 'test' )
     @api.endpoint = 'http://www.example.com/'
@@ -33,7 +37,7 @@ describe Boss::Api do
 
     it "should build the spelling objects" do
       Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.should_receive(:build).with('{"ysearchresponse":{}}')
+      Boss::ResultFactory.should_receive(:build).with(yahoo_json)
 
       @api.search_spelling("girafes")
     end
@@ -49,7 +53,7 @@ describe Boss::Api do
 
     it "should build the news objects" do
       Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.should_receive(:build).with('{"ysearchresponse":{}}')
+      Boss::ResultFactory.should_receive(:build).with(yahoo_json)
 
       @api.search_news("monkey")
     end
@@ -64,7 +68,7 @@ describe Boss::Api do
 
     it "should build the image objects" do
       Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.should_receive(:build).with('{"ysearchresponse":{}}')
+      Boss::ResultFactory.should_receive(:build).with(yahoo_json)
 
       @api.search_images("hippo")
     end
@@ -80,7 +84,7 @@ describe Boss::Api do
 
     it "should build the web objects" do
       Net::HTTP.stub!(:get_response).and_return{ mock_http_response }
-      Boss::ResultFactory.should_receive(:build).with('{"ysearchresponse":{}}')
+      Boss::ResultFactory.should_receive(:build).with(yahoo_json)
 
       @api.search_web("monkey")
     end
