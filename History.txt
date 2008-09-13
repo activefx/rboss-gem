@@ -1,3 +1,6 @@
+=== Version 0.1.5
+* Use pure ruby json gem
+
 === Version 0.1.4
 * Parse yahoo error reports and return message
 * Encapsulate spell/spelling difference into result factory
